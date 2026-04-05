@@ -1,15 +1,19 @@
+package modele;
+
+import exception.LivreInvalideException;
+
 public class Exemplaire {
-    private int idExemplaire;
+    private String idExemplaire;
     private EtatExemplaire etat;
     private Livre livre;
 
-    public Exemplaire(int idExemplaire, Livre livre) {
+    public Exemplaire(String idExemplaire, Livre livre, EtatExemplaire etat) {
         this.idExemplaire = idExemplaire;
         this.livre = livre;
-        this.etat = EtatExemplaire.DISPONIBLE;
+        this.etat = etat;
     }
 
-    public int getIdExemplaire() { return idExemplaire; }
+    public String getIdExemplaire() { return idExemplaire; }
     public EtatExemplaire getEtat() { return etat; }
     public Livre getLivre() { return livre; }
 

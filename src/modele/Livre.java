@@ -1,4 +1,7 @@
+package modele;
+
 import java.time.Year;
+import exception.LivreInvalideException;
 
 public class Livre {
     private String isbn;

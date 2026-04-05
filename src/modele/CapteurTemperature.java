@@ -12,18 +12,22 @@ public class CapteurTemperature extends Capteur {
 
     @Override
     public double lireValeur() {
-        return 10 + Math.random() * 20;
-    }
-
-    @Override
-    
-    public void verifierSeuil() throws AlerteConservationException {
-        double valeur = lireValeur();
+        double valeur = 10 + Math.random() * 20;
         Releve r = new Releve(valeur);
         historique.add(r);
         this.derniereValeur = valeur;
-        if (valeur < SEUIL_MIN || valeur > SEUIL_MAX) {
+        return valeur;
+    }
+
+    @Override
+    public void verifierSeuil() throws AlerteConservationException {
+        double valeur = lireValeur();
+        if (valeur < SEUIL_MIN || valeur > SEUIL_MAX)
             throw new AlerteConservationException("Temperature hors seuil : " + valeur + "°C");
-        }
+    }
+
+    public Releve getDernierReleve() {
+        if (historique.isEmpty()) return null;
+        return historique.get(historique.size() - 1);
     }
 }

@@ -34,15 +34,20 @@ public class MembreDAO {
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return new Membre(
-                    rs.getString("id_membre"),
-                    rs.getString("nom"),
-                    rs.getString("prenom"),
-                    rs.getString("email"),
-                    LocalDate.parse(rs.getString("date_inscription"))
-                );
-            }
+		if (rs.next()) {
+    try {
+        return new Membre(
+            rs.getString("id_membre"),
+            rs.getString("nom"),
+            rs.getString("prenom"),
+            rs.getString("email"),
+            LocalDate.parse(rs.getString("date_inscription"))
+        );
+    } catch (exception.MembreInvalideException e) {
+        System.out.println("[MembreDAO] Données invalides : " + e.getMessage());
+    }
+}
+
         } catch (SQLException e) {
             System.out.println("[MembreDAO] Erreur findById : " + e.getMessage());
         }
@@ -54,15 +59,20 @@ public class MembreDAO {
         String sql = "SELECT * FROM membres";
         try (Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
-            while (rs.next()) {
-                liste.add(new Membre(
-                    rs.getString("id_membre"),
-                    rs.getString("nom"),
-                    rs.getString("prenom"),
-                    rs.getString("email"),
-                    LocalDate.parse(rs.getString("date_inscription"))
-                ));
-            }
+
+while (rs.next()) {
+    try {
+        liste.add(new Membre(
+            rs.getString("id_membre"),
+            rs.getString("nom"),
+            rs.getString("prenom"),
+            rs.getString("email"),
+            LocalDate.parse(rs.getString("date_inscription"))
+        ));
+    } catch (exception.MembreInvalideException e) {
+        System.out.println("[MembreDAO] Données invalides : " + e.getMessage());
+    }
+}
         } catch (SQLException e) {
             System.out.println("[MembreDAO] Erreur findAll : " + e.getMessage());
         }

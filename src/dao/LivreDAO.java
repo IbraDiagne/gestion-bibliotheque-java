@@ -33,15 +33,20 @@ public class LivreDAO {
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, isbn);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return new Livre(
-                    rs.getString("isbn"),
-                    rs.getString("titre"),
-                    rs.getString("auteur"),
-                    rs.getInt("annee"),
-                    rs.getString("genre")
-                );
-            }
+	    if (rs.next()) {
+    try {
+        return new Livre(
+            rs.getString("isbn"),
+            rs.getString("titre"),
+            rs.getString("auteur"),
+            rs.getInt("annee"),
+            rs.getString("genre")
+        );
+    } catch (exception.LivreInvalideException e) {
+        System.out.println("[LivreDAO] Données invalides : " + e.getMessage());
+    }
+}
+
         } catch (SQLException e) {
             System.out.println("[LivreDAO] Erreur findById : " + e.getMessage());
         }
@@ -53,15 +58,20 @@ public class LivreDAO {
         String sql = "SELECT * FROM livres";
         try (Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
-            while (rs.next()) {
-                liste.add(new Livre(
-                    rs.getString("isbn"),
-                    rs.getString("titre"),
-                    rs.getString("auteur"),
-                    rs.getInt("annee"),
-                    rs.getString("genre")
-                ));
-            }
+while (rs.next()) {
+    try {
+        liste.add(new Livre(
+            rs.getString("isbn"),
+            rs.getString("titre"),
+            rs.getString("auteur"),
+            rs.getInt("annee"),
+            rs.getString("genre")
+        ));
+    } catch (exception.LivreInvalideException e) {
+        System.out.println("[LivreDAO] Données invalides : " + e.getMessage());
+    }
+}
+
         } catch (SQLException e) {
             System.out.println("[LivreDAO] Erreur findAll : " + e.getMessage());
         }

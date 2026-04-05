@@ -14,10 +14,14 @@ public class ConnexionDB {
     public static Connection getConnection() {
         if (instance == null) {
             try {
+                // Forcer le chargement du driver SQLite
+                Class.forName("org.sqlite.JDBC");
                 instance = DriverManager.getConnection(URL);
                 System.out.println("[DB] Connexion OK");
+            } catch (ClassNotFoundException e) {
+                System.out.println("[DB] Driver introuvable : " + e.getMessage());
             } catch (SQLException e) {
-                System.out.println("[DB] Erreur : " + e.getMessage());
+                System.out.println("[DB] Erreur connexion : " + e.getMessage());
             }
         }
         return instance;
